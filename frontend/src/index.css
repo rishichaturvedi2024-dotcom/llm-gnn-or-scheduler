@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.glow {
+  background: radial-gradient(circle at 20% 20%, rgba(91, 140, 255, 0.25), transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(29, 158, 117, 0.18), transparent 45%),
+    radial-gradient(circle at 20% 85%, rgba(216, 90, 48, 0.15), transparent 50%);
+}

@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+torch
+torch-geometric
+networkx
+pandas
+numpy
+scikit-learn
+openai
+python-dotenv
+scipy

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+backend/data/or_data.csv
+backend/data/processed_data.json
+backend/models/gnn_weights.pt
+backend/models/node_index.json
+frontend/node_modules/
+frontend/dist/
+.env
