@@ -3,19 +3,23 @@ const SHIFT_MINUTES = 12 * 60;
 
 export default function ScheduleTable({ schedule }) {
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-card">
-      <div className="grid grid-cols-[140px_repeat(24,minmax(40px,1fr))] gap-1 text-xs font-semibold text-slate-400">
-        <div>OR Room</div>
-        {HOURS.map((hour) => (
-          <div key={hour} className="col-span-2 text-center">
-            {hour}:00
-          </div>
-        ))}
-      </div>
-      {schedule.map((row) => (
-        <div key={row.or_room} className="relative mt-3 grid grid-cols-[140px_repeat(24,minmax(40px,1fr))] gap-1">
-          <div className="text-sm font-semibold text-slate-600">{row.or_room}</div>
-          <div className="col-span-24 relative h-14 overflow-hidden rounded-xl border border-slate-100 bg-[linear-gradient(90deg,#F1F5F9_0,#F1F5F9_50%,#FFFFFF_50%,#FFFFFF_100%)] bg-[length:80px_100%]">
+    <div className="rounded-2xl bg-white p-6 shadow-card overflow-x-auto">
+      <div className="min-w-[1000px]">
+        <div className="grid grid-cols-[140px_repeat(24,1fr)] gap-1 text-xs font-semibold text-slate-400">
+          <div className="flex items-end pb-2">OR Room</div>
+          {HOURS.map((hour) => (
+            <div key={hour} className="col-span-2 text-center border-l border-slate-100 pb-2">
+              {hour}:00
+            </div>
+          ))}
+        </div>
+        {schedule.map((row) => (
+          <div key={row.or_room} className="relative mt-3 grid grid-cols-[140px_repeat(24,1fr)] gap-1">
+            <div className="flex items-center text-sm font-semibold text-slate-600">{row.or_room}</div>
+            <div 
+              className="relative h-14 overflow-hidden rounded-xl border border-slate-100 bg-[linear-gradient(90deg,#F1F5F9_0,#F1F5F9_50%,#FFFFFF_50%,#FFFFFF_100%)]"
+              style={{ gridColumn: "span 24 / span 24", backgroundSize: "8.333333% 100%" }}
+            >
             {row.cases.map((item) => {
               const start = Math.max(0, item.start_minute || 0);
               const end = Math.min(SHIFT_MINUTES, item.end_minute || 0);
@@ -41,6 +45,7 @@ export default function ScheduleTable({ schedule }) {
           </div>
         </div>
       ))}
+      </div>
     </div>
   );
 }
