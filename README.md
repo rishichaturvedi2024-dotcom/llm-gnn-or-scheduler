@@ -55,7 +55,10 @@ npm run dev
 Click "Run Full Pipeline" on the Dashboard.
 
 ## Notes
-- Add your OpenAI API key to backend/.env for LLM features.
+- Add your Groq API key to backend/.env for Llama features.
+- Example:
+	GROQ_API_KEY=your_key_here
+	GROQ_MODEL=llama-3.1-70b-versatile
 - Without a key, a mock normaliser and mock explainer are used.
 - GNN training on 500 records takes ~30 seconds on CPU.
 

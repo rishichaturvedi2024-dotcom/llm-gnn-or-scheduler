@@ -16,7 +16,8 @@ router = APIRouter()
 @router.post("/explain")
 def explain(payload: dict):
     load_dotenv()
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = os.getenv("GROQ_API_KEY")
+    model_name = os.getenv("GROQ_MODEL", "llama-3.1-70b-versatile")
 
     if not api_key or OpenAI is None:
         risk_level = "high" if payload.get("risk_flag") else "low"
@@ -28,7 +29,7 @@ def explain(payload: dict):
             "re_predict": risk_level == "high",
         }
 
-    client = OpenAI(api_key=api_key)
+    client = OpenAI(api_key=api_key, base_url="https://api.groq.com/openai/v1")
     system_prompt = (
         "You are an expert OR scheduling AI assistant at a hospital."
         " Analyse this surgical team prediction and return ONLY a JSON object"
@@ -40,7 +41,7 @@ def explain(payload: dict):
     )
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model=model_name,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": json.dumps(payload)},

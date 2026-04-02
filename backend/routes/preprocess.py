@@ -88,14 +88,15 @@ def preprocess(limit: int = Query(default=500, ge=50, le=5000)):
 
     df = pd.read_csv(DATA_PATH).head(limit)
     load_dotenv()
-    api_key = os.getenv("OPENAI_API_KEY")
+    api_key = os.getenv("GROQ_API_KEY")
+    model_name = os.getenv("GROQ_MODEL", "llama-3.1-70b-versatile")
 
     if not api_key or OpenAI is None:
         processed = _mock_normalize(df)
         PROCESSED_PATH.write_text(json.dumps(processed, indent=2))
         return {"status": "done", "records_processed": len(processed), "sample": processed[:3]}
 
-    client = OpenAI(api_key=api_key)
+    client = OpenAI(api_key=api_key, base_url="https://api.groq.com/openai/v1")
     system_prompt = (
         "You are a medical data normaliser for OR scheduling research."
         " Given raw OR records as JSON, return a JSON array (no markdown, no"
@@ -114,7 +115,7 @@ def preprocess(limit: int = Query(default=500, ge=50, le=5000)):
         batch = rows[start : start + 50]
         try:
             response = client.chat.completions.create(
-                model="gpt-4o-mini",
+                model=model_name,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": json.dumps(batch)},
