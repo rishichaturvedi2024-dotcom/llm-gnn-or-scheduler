@@ -90,6 +90,12 @@ export default function Schedule() {
         </div>
       </header>
 
+      <div className="flex items-center gap-6 text-sm font-semibold text-slate-500">
+        <div className="flex items-center gap-2"><div className="h-3 w-3 rounded-full bg-emerald-500"></div>Low Risk</div>
+        <div className="flex items-center gap-2"><div className="h-3 w-3 rounded-full bg-amber-400"></div>Medium Risk</div>
+        <div className="flex items-center gap-2"><div className="h-3 w-3 rounded-full bg-rose-500"></div>High Risk</div>
+      </div>
+
       {schedule.length > 0 ? <ScheduleTable schedule={schedule} /> : <div className="rounded-2xl bg-white p-8 shadow-card text-sm text-slate-500">Generate a schedule to view the gantt table.</div>}
 
       {metrics && (
