@@ -2,9 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import ScheduleTable from "../components/ScheduleTable.jsx";
 
-const toSlot = (timeStr) => {
+const toMinutes = (timeStr) => {
   const [h, m] = timeStr.split(":").map(Number);
-  return (h - 7) * 2 + m / 30;
+  return (h - 7) * 60 + m;
 };
 
 export default function Schedule() {
@@ -13,14 +13,14 @@ export default function Schedule() {
   const [metrics, setMetrics] = useState(null);
 
   const generate = async () => {
-    const res = await axios.post("/api/schedule", { date, num_cases: 24 });
+    const res = await axios.post("/api/schedule", { date, num_cases: 60 });
 
     const byRoom = res.data.schedule.reduce((acc, item) => {
       if (!acc[item.or_room]) acc[item.or_room] = [];
       acc[item.or_room].push({
         ...item,
-        start_slot: toSlot(item.start_time),
-        end_slot: toSlot(item.end_time),
+        start_minute: toMinutes(item.start_time),
+        end_minute: toMinutes(item.end_time),
       });
       return acc;
     }, {});
