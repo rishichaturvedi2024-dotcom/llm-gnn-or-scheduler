@@ -12,11 +12,12 @@ const toMinutes = (timeStr) => {
 
 export default function Schedule() {
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [numCases, setNumCases] = useState(85);
   const [schedule, setSchedule] = useState([]);
   const [metrics, setMetrics] = useState(null);
 
   const generate = async () => {
-    const res = await axios.post("/api/schedule", { date, num_cases: 60 });
+    const res = await axios.post("/api/schedule", { date, num_cases: numCases });
 
     const byRoom = res.data.schedule.reduce((acc, item) => {
       if (!acc[item.or_room]) acc[item.or_room] = [];
@@ -62,6 +63,18 @@ export default function Schedule() {
           <h2 className="font-display text-3xl">Predict-then-Optimize OR Allocation</h2>
         </div>
         <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-semibold text-slate-500">Cases:</label>
+            <input
+              type="number"
+              min="10"
+              max="150"
+              step="5"
+              value={numCases}
+              onChange={(e) => setNumCases(Number(e.target.value))}
+              className="w-20 rounded-full border border-slate-200 px-3 py-2 text-sm"
+            />
+          </div>
           <input
             type="date"
             value={date}
