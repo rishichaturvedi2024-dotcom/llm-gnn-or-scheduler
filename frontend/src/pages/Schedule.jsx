@@ -3,7 +3,10 @@ import axios from "axios";
 import ScheduleTable from "../components/ScheduleTable.jsx";
 
 const toMinutes = (timeStr) => {
-  const [h, m] = timeStr.split(":").map(Number);
+  if (!timeStr) return Number.NaN;
+  const parts = String(timeStr).split(":").map(Number);
+  if (parts.length < 2 || parts.some((p) => Number.isNaN(p))) return Number.NaN;
+  const [h, m] = parts;
   return (h - 7) * 60 + m;
 };
 
@@ -17,18 +20,35 @@ export default function Schedule() {
 
     const byRoom = res.data.schedule.reduce((acc, item) => {
       if (!acc[item.or_room]) acc[item.or_room] = [];
+      const startMinute = toMinutes(item.start_time);
+      const endMinute = toMinutes(item.end_time);
       acc[item.or_room].push({
         ...item,
-        start_minute: toMinutes(item.start_time),
-        end_minute: toMinutes(item.end_time),
+        start_minute: startMinute,
+        end_minute: endMinute,
       });
       return acc;
     }, {});
 
-    const roomRows = Object.keys(byRoom).sort().map((room) => ({
-      or_room: room,
-      cases: byRoom[room],
-    }));
+    const roomRows = Object.keys(byRoom).sort().map((room) => {
+      const cases = byRoom[room]
+        .map((item, idx) => {
+          const startMinute = Number.isFinite(item.start_minute) ? item.start_minute : null;
+          const endMinute = Number.isFinite(item.end_minute) ? item.end_minute : null;
+          if (startMinute !== null && endMinute !== null && endMinute >= startMinute) {
+            return item;
+          }
+          const fallbackStart = idx === 0 ? 0 : (Number.isFinite(cases[idx - 1]?.end_minute) ? cases[idx - 1].end_minute : idx * 30);
+          const fallbackEnd = fallbackStart + (item.predicted_duration_mins || 30);
+          return {
+            ...item,
+            start_minute: fallbackStart,
+            end_minute: fallbackEnd,
+          };
+        })
+        .sort((a, b) => (a.start_minute || 0) - (b.start_minute || 0));
+      return { or_room: room, cases };
+    });
 
     setSchedule(roomRows);
     setMetrics(res.data.metrics);
