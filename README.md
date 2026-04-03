@@ -40,8 +40,9 @@ python data/generate_synthetic.py
 
 ### 2. Start backend
 ```bash
-pip install -r requirements.txt
-uvicorn app:app --reload --port 8000
+# Run from the root workspace directory
+pip install -r backend/requirements.txt
+uvicorn backend.app:app --reload --port 8000
 ```
 
 ### 3. Start frontend
