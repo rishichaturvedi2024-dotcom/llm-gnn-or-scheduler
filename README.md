@@ -1,4 +1,4 @@
-# OR Scheduler — GNN + LLM Research Demo
+# OR Scheduler — GNN + LLM Research 
 
 ## Paper Summary (Why This Is Novel)
 This project is a research demo for a conference paper on **LLM‑controlled adaptive graph learning** for Operating Room (OR) scheduling. Unlike standard pipelines where an LLM is only used to clean data, the LLM here is a **dynamic controller** that monitors GNN outputs and rewires the surgical synergy graph in real time.
