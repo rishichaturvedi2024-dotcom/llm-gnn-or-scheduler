@@ -39,41 +39,43 @@ export default function GraphView() {
           <div className="flex items-center gap-2"><span className="h-3 w-3 rounded-full bg-[#D85A30]"></span>Scrub Nurse</div>
         </div>
       </div>
-      <aside className="rounded-3xl bg-white p-6 shadow-card">
-        <h3 className="font-display text-lg">Team Member Detail</h3>
+      <aside className="rounded-3xl bg-white p-8 shadow-card flex flex-col items-start min-w-[300px]">
+        <h3 className="font-display text-2xl text-ink">Team Member Detail</h3>
         {selected ? (
-          <div className="mt-6 space-y-4 text-sm text-slate-600">
+          <div className="mt-8 flex w-full flex-col gap-6 text-base text-slate-700">
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Staff ID</p>
-              <p className="mt-1 font-semibold text-ink">{selected.id}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Staff ID</p>
+              <p className="mt-1 font-display text-2xl text-ink">{selected.id}</p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Role</p>
-              <span className="mt-1 inline-flex rounded-full bg-ink px-3 py-1 text-xs font-semibold text-white">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Role</p>
+              <span className="mt-2 inline-flex rounded-full bg-ink px-4 py-1.5 text-sm font-bold text-white">
                 {selected.role}
               </span>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Num Cases</p>
-              <p className="mt-1 font-semibold">{selected.num_cases}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Num Cases</p>
+              <p className="mt-1 text-xl font-semibold">{selected.num_cases}</p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Avg Outcome</p>
-              <p className="mt-1 font-semibold">{selected.avg_outcome?.toFixed?.(2)}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Avg Outcome</p>
+              <p className="mt-1 text-xl font-semibold">{selected.avg_outcome?.toFixed?.(2)}</p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Avg Complexity</p>
-              <p className="mt-1 font-semibold">{selected.avg_complexity?.toFixed?.(2)}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Avg Complexity</p>
+              <p className="mt-1 text-xl font-semibold">{selected.avg_complexity?.toFixed?.(2)}</p>
             </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Synergy Percentile</p>
-              <div className="mt-2 h-2 w-full rounded-full bg-slate-200">
-                <div className="h-2 rounded-full bg-sky" style={{ width: `${Math.min(100, (selected.avg_outcome || 0) * 10)}%` }}></div>
+            <div className="w-full">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Synergy Percentile</p>
+              <div className="mt-3 h-3 w-full rounded-full bg-slate-200">
+                <div className="h-3 rounded-full bg-sky" style={{ width: `${Math.min(100, (selected.avg_outcome || 0) * 10)}%` }}></div>
               </div>
             </div>
           </div>
         ) : (
-          <p className="mt-6 text-sm text-slate-500">Click a node in the graph to inspect staff synergy details.</p>
+          <div className="mt-8 flex h-[200px] w-full flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 p-8 text-center text-slate-500">
+            Select a node in the graph on the left to inspect staff synergy details.
+          </div>
         )}
       </aside>
     </div>
