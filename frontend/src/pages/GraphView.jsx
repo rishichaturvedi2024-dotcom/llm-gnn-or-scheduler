@@ -17,8 +17,8 @@ export default function GraphView() {
   }, []);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
-      <div className="space-y-6">
+    <div className="grid gap-8 lg:grid-cols-[3fr_1fr]">
+      <div className="space-y-6 min-w-0">
         <div className="grid gap-4 md:grid-cols-4">
           {[
             { label: "Nodes", value: stats.num_nodes },
