@@ -114,9 +114,14 @@ def predict(payload: dict):
         g.get_edge_data(payload["anaesthetist_id"], payload["scrub_nurse_id"]),
     ]
     synergy_weights = [edge["weight"] for edge in edges if edge]
-    synergy_score = float(sum(synergy_weights) / max(len(synergy_weights), 1))
+    
+    if synergy_weights:
+        synergy_score = float(sum(synergy_weights) / len(synergy_weights))
+    else:
+        synergy_score = 0.5  # Neutral synergy if no prior history
 
-    risk_flag = (ci[1] - ci[0]) > 30 or synergy_score < 0.4
+    # A 30% CI width is standard mock. Only flag if synergy is genuinely poor.
+    risk_flag = synergy_score < 0.4
 
     embed_map = {
         payload["surgeon_id"]: embeddings[team_indices[0, 0]].tolist(),
